@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "types": ["mocha", "node"],
+        "module": "commonjs",
+        "outDir": "./dist",
+        "target": "ESNext",
+        "sourceMap": true
+    },
+    "include": ["./src", "./test"]
+}
