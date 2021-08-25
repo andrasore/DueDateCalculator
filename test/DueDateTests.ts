@@ -1,8 +1,46 @@
 import DueDateCalculator from '../src/DueDateCalculator';
+import * as assert from 'assert';
 
 describe('Due date calculator tests', function () {
-    it('Should work', function () {
-        const calculator = new DueDateCalculator();
-        const result = calculator.CalculateDueDate(new Date(), 3);
+    let calculator: DueDateCalculator;
+
+    beforeEach(function () {
+        calculator = new DueDateCalculator();
+    });
+
+    it('Should throw when a non-working hours submit time is used', function () {
+        const submitTime = new Date('Aug 24, 2021 03:24:00');
+        const turnaroundHours = 3;
+
+        assert.throws(() => calculator.CalculateDueDate(submitTime, turnaroundHours));
+    });
+
+    it('Should return the result date occuring on the same working day', function () {
+        const submitTime = new Date('Aug 24, 2021 9:00:00');
+        const turnaroundHours = 3;
+
+        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+
+        assert.strictEqual(result.getHours(), 12);
+    });
+
+    it('Should return the result date occuring on the next working day', function () {
+        const submitTime = new Date('Aug 24, 2021 16:00:00');
+        const turnaroundHours = 3;
+
+        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+
+        assert.strictEqual(result.getHours(), 10);
+        assert.strictEqual(result.getDate(), 25);
+    });
+
+    it('Should return the result date occuring on the next working week', function () {
+        const submitTime = new Date('Aug 24, 2021 16:00:00');
+        const turnaroundHours = 5 * 8; // 1 week
+
+        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+
+        assert.strictEqual(result.getHours(), 16);
+        assert.strictEqual(result.getDate(), 31);
     });
 });
