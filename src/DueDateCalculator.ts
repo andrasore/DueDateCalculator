@@ -40,7 +40,7 @@ export default class DueDateCalculator {
     }
 
     private get workdayHours() {
-        return (this.workdayEndHour - this.workdayStartHour);
+        return this.workdayEndHour - this.workdayStartHour;
     }
 
     private setToNextWorkingDay(d: Date) {
@@ -73,12 +73,7 @@ export default class DueDateCalculator {
     private validateSubmitTime(submitTime: Date): void {
         const submitHours = submitTime.getHours();
         if (submitHours < this.workdayStartHour || submitHours >= this.workdayEndHour) {
-            const formattedWorkingHours = `(${this.leftPadWith1Zero(this.workdayStartHour)}h-${this.leftPadWith1Zero(this.workdayEndHour)}h)`;
-            throw new RangeError(`Submit time "${submitTime.toString()}" must be between working hours ${formattedWorkingHours}!`);
+            throw new RangeError(`Submit time "${submitTime.toString()}" must be between working hours!`);
         }
-    }
-
-    private leftPadWith1Zero(value: number): string {
-        return String(value).padStart(2, '0');
     }
 }
