@@ -21,10 +21,6 @@ export default class DueDateCalculator {
 		this.workdayEndHour = options.workdayEndHour;
 	}
 
-	get workdayHours() {
-		return (this.workdayEndHour - this.workdayStartHour);
-	}
-
 	calculateDueDate(submitTime: Date, turnaroundHours: number) {
         this.validateSubmitTime(submitTime);
 
@@ -33,40 +29,42 @@ export default class DueDateCalculator {
 		let dueDate = new Date(submitTime);
 
 		for(let i = 0; i < fullWorkdays; i++) {
-			this.incrementOneWorkingDay(dueDate);
+			this.setToNextWorkingDay(dueDate);
 		}
 
 		for(let i = 0; i < remainderHours; i++) {
-			this.incrementOneWorkingHour(dueDate);
+			this.setToNextWorkingHour(dueDate);
 		}
 
         return dueDate;
 	}
 
-	incrementOneWorkingDay(d: Date) {
+	private get workdayHours() {
+		return (this.workdayEndHour - this.workdayStartHour);
+	}
+
+	private setToNextWorkingDay(d: Date) {
 		const isFriday = d.getDay() === FRIDAY_INDEX;
 
 		if (isFriday) {
 			d.setDate(d.getDate() + FRIDAY_TO_MONDAY_DAYS);
-		}
-		else {
+        } else {
 			d.setDate(d.getDate() + 1);
 		}
 	}
 
-	incrementOneWorkingHour(d: Date) {
+	private setToNextWorkingHour(d: Date) {
 		const isLastHour = d.getHours() === this.workdayEndHour - 1;
 
 		if (isLastHour) {
-			this.incrementOneWorkingDay(d);
+			this.setToNextWorkingDay(d);
 			d.setHours(this.workdayStartHour);
-		}
-		else {
+		} else {
 			d.setHours(d.getHours() + 1);
 		}
 	}
 
-	convertToWorkdays(turnaroundHours: number) {
+	private convertToWorkdays(turnaroundHours: number) {
 		const fullWorkdays = Math.floor(turnaroundHours / this.workdayHours);
 		const remainderHours = turnaroundHours % this.workdayHours;
 		return { fullWorkdays, remainderHours };

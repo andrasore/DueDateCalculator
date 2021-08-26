@@ -43,4 +43,14 @@ describe('Due date calculator tests', function () {
         assert.strictEqual(result.getHours(), 16);
         assert.strictEqual(result.getDate(), 31);
     });
+
+    it('Should return the result date occuring on the next working month', function () {
+        const submitTime = new Date('Aug 29, 2021 16:00:00');
+        const turnaroundHours = 3 * 8; // 3 days
+
+        const result = calculator.calculateDueDate(submitTime, turnaroundHours);
+
+        assert.strictEqual(result.getHours(), 16);
+        assert.strictEqual(result.getDate(), 1);
+    });
 });
