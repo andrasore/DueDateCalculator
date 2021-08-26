@@ -29,11 +29,11 @@ export default class DueDateCalculator {
         let dueDate = new Date(submitTime);
 
         for(let i = 0; i < fullWorkdays; i++) {
-            this.setToNextWorkingDay(dueDate);
+            this.setDateToNextWorkingDay(dueDate);
         }
 
         for(let i = 0; i < remainderHours; i++) {
-            this.setToNextWorkingHour(dueDate);
+            this.setDateToNextWorkingHour(dueDate);
         }
 
         return dueDate;
@@ -43,7 +43,7 @@ export default class DueDateCalculator {
         return this.workdayEndHour - this.workdayStartHour;
     }
 
-    private setToNextWorkingDay(d: Date) {
+    private setDateToNextWorkingDay(d: Date) {
         const isFriday = d.getDay() === FRIDAY_INDEX;
 
         if (isFriday) {
@@ -53,11 +53,11 @@ export default class DueDateCalculator {
         }
     }
 
-    private setToNextWorkingHour(d: Date) {
+    private setDateToNextWorkingHour(d: Date) {
         const isLastHour = d.getHours() === this.workdayEndHour - 1;
 
         if (isLastHour) {
-            this.setToNextWorkingDay(d);
+            this.setDateToNextWorkingDay(d);
             d.setHours(this.workdayStartHour);
         } else {
             d.setHours(d.getHours() + 1);
