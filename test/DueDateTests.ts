@@ -15,6 +15,13 @@ describe('Due date calculator tests', function () {
         assert.throws(() => calculator.calculateDueDate(submitTime, turnaroundHours));
     });
 
+    it('Should throw when a decimal number is used for turnaround hours', function () {
+        const submitTime = new Date('Aug 24, 2021 09:24:00');
+        const turnaroundHours = 3.5;
+
+        assert.throws(() => calculator.calculateDueDate(submitTime, turnaroundHours));
+    });
+
     it('Should return the result date occuring on the same working day', function () {
         const submitTime = new Date('Aug 24, 2021 9:00:00');
         const turnaroundHours = 3;

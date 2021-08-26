@@ -23,6 +23,7 @@ export default class DueDateCalculator {
 
     calculateDueDate(submitTime: Date, turnaroundHours: number) {
         this.validateSubmitTime(submitTime);
+        this.validateTurnaroundHours(turnaroundHours);
 
         const { fullWorkdays, remainderHours } = this.convertToWorkdays(turnaroundHours);
 
@@ -74,6 +75,12 @@ export default class DueDateCalculator {
         const submitHours = submitTime.getHours();
         if (submitHours < this.workdayStartHour || submitHours >= this.workdayEndHour) {
             throw new RangeError(`Submit time "${submitTime.toString()}" must be between working hours!`);
+        }
+    }
+
+    private validateTurnaroundHours(turnaroundHours: number): void { 
+        if(turnaroundHours % 1 !== 0) {
+            throw new RangeError('Turnaround hours should be a whole number!')
         }
     }
 }
