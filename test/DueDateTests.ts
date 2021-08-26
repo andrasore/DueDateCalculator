@@ -12,14 +12,14 @@ describe('Due date calculator tests', function () {
         const submitTime = new Date('Aug 24, 2021 03:24:00');
         const turnaroundHours = 3;
 
-        assert.throws(() => calculator.CalculateDueDate(submitTime, turnaroundHours));
+        assert.throws(() => calculator.calculateDueDate(submitTime, turnaroundHours));
     });
 
     it('Should return the result date occuring on the same working day', function () {
         const submitTime = new Date('Aug 24, 2021 9:00:00');
         const turnaroundHours = 3;
 
-        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+        const result = calculator.calculateDueDate(submitTime, turnaroundHours);
 
         assert.strictEqual(result.getHours(), 12);
     });
@@ -28,9 +28,9 @@ describe('Due date calculator tests', function () {
         const submitTime = new Date('Aug 24, 2021 16:00:00');
         const turnaroundHours = 3;
 
-        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+        const result = calculator.calculateDueDate(submitTime, turnaroundHours);
 
-        assert.strictEqual(result.getHours(), 10);
+        assert.strictEqual(result.getHours(), 11);
         assert.strictEqual(result.getDate(), 25);
     });
 
@@ -38,7 +38,7 @@ describe('Due date calculator tests', function () {
         const submitTime = new Date('Aug 24, 2021 16:00:00');
         const turnaroundHours = 5 * 8; // 1 week
 
-        const result = calculator.CalculateDueDate(submitTime, turnaroundHours);
+        const result = calculator.calculateDueDate(submitTime, turnaroundHours);
 
         assert.strictEqual(result.getHours(), 16);
         assert.strictEqual(result.getDate(), 31);
